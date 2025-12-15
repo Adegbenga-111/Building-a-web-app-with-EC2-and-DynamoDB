@@ -46,3 +46,23 @@ and the IGW is attached to the VPC created at the start of this project. The rea
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(131).png)
 
   Image 06: Attaching the IGW to the VPC.
+
+
+  Creating a Route Table for the Public Subnet , After creating the route table , I added a route with :
+ 
+   -Destination: 0.0.0.0/0 ( The internet)
+   
+   -Target : IGW 
+   
+  As shown in the image below :
+  
+  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(131).png)
+
+   Image 07.
+
+Than, I have to Associate the route table with the Public Subnet in the page shown in the image below :
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(133).png)
+
+   Image 08.
+
