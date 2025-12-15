@@ -20,6 +20,7 @@ Create The VPC with:
 -IPv4 CIDR : 10.0.0.0/16 , as shown in the image below :
 
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(123).png)
+
    
    Image 02: The reminding Setting were left on default .
 
@@ -74,6 +75,8 @@ In the creation of the DB , the following settings  and configuration were used 
 as shown in the image below :
 
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(145).png)
+
+
 Image 09.
 
 
