@@ -10,7 +10,7 @@ This project implements a simple, secure web application architecture on AWS usi
 
   Image 01: Architecture Diagram
 
-## Steps To Build 
+##  Phase Invovle In Building oF This Project  
 ### Step 1:
 
 Create The VPC with:
@@ -65,4 +65,17 @@ Than, I have to Associate the route table with the Public Subnet in the page sho
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(133).png)
 
    Image 08.
+
+
+### Phase 2 : Create DynamoDB Table 
+In the creation of the DB , the following settings  and configuration were used :
+  - Table name: Users
+  - Partition key: userid(String)
+as shown in the image below :
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(145).png)
+Image 09.
+
+
+
 
