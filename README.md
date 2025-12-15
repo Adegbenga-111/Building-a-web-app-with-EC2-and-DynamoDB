@@ -11,7 +11,7 @@ This project implements a simple, secure web application architecture on AWS usi
   Image 01: Architecture Diagram
 
 ##  Phase Invovle In Building oF This Project  
-### Step 1:
+### Phase 1:
 
 Create The VPC with:
 
@@ -69,6 +69,7 @@ Than, I have to Associate the route table with the Public Subnet in the page sho
 
 
 ### Phase 2 : Create DynamoDB Table 
+
 In the creation of the DB , the following settings  and configuration were used :
   - Table name: Users
   - Partition key: userid(String)
@@ -133,6 +134,71 @@ Attaching the pocily create before to the role
 
 Image 15: review of the role be create.
 
+### Phase 3 : Set up of the EC2 to host the front and backend of the simple web app.
+ Installing and enbling  apache2 and php with the set of commmand below :
+     "sudo apt update -y
+      sudo apt install apache2 php libapache2-mod-php php-cli unzip -y
+      sudo systemctl start apache2
+      sudo systemctl enable apache2"
 
 
+ ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(167).png)
+
+  Image 16: "sudo apt install apache2 php libapache2-mod-php php-cli unzip -y" running on the terminal.
+
+After in installing the sever , I had to check if the server is well installed , the result is shown below :
+
+ ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(169).png)
+
+   Image 17: error page showing that something is not right, at this the time only ssh and https was allowed in the security Group so to fix it I updated the SG to allow http as  shown below:
+
+ ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(173).png)
+
+ Image 17 .
+
+ After this I try to reach the my server agian , the result is shown below :
+
+   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(175).png)
+
+Image 18.
+
+The next step is to install Composer (a php dependency manager that automates installing and managing libraries for your project.) , using this command  
+   "cd /var/www/html
+    sudo apt install curl -y
+    sudo curl -sS https://getcomposer.org/installer | sudo php"
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(176).png)
+
+ Image 19.
+
+  Installing  AWS SDK for PHP wusing " sudo php composer.phar require aws/aws-sdk-php" commamd and the result is shown below :
+
+
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(177).png)
+  
+Image 20.
+ This is a common error , telling that php extensions are missing since php does not install composer php extension by default .
+ 
+ ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(175).png)
+
+Image 21.
+
+To fix the error , i used "sudo apt install php-cli php-mbstring php-zip php-curl php-xml -y" to install all of the extensions , as shown below :
+
+  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(178).png)
+
+  Image 22.
+
+After the extension has be  installed , i try to install AWS SDK for php , as shown below :
+
+   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(180).png)
+
+   Image 23 : SDK successfully installed .
+   
+Fix permissions so Apache can read files with the following command :
+
+"
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html"
   
