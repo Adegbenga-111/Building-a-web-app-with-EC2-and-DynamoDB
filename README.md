@@ -100,4 +100,39 @@ Launching an EC2 in the public subnet in the VPC we created , The specs of the E
 
    image 10: upgrading the EC2
 
+Creating IAM Role For EC2  : This is to important because without this ,the server will not be able to read or write into the DB. In order to do this , I went to IAM -> attach permission-> create policy , to create a policy to allow EC2
+to read and write in the DB, as shown in the image below :
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(153).png)
+
+
+Image 11: The policy in JSON .
+
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(154).png)
+
+
+Image 12: review of the policy , but the name of the policy is not in the image .
+
+After this , i went to create the role ; IAM-> Roles -> Create role 
+- Trusted entity : AWS service
+- Use case : EC2, , as shown below:
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(156).png)
+
+Image 13.
+
+Attaching the pocily create before to the role 
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(157).png)
+
+ Image 14.
+
+
+ ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(158).png)
+
+Image 15: review of the role be create.
+
+
+
   
