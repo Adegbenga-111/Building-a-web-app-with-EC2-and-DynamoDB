@@ -201,4 +201,31 @@ Fix permissions so Apache can read files with the following command :
 "
 sudo chown -R www-data:www-data /var/www/html
 sudo chmod -R 755 /var/www/html"
+
+The next step is to create the web file which are the index.php and save .php file in nano file editor , then restart the server :
+
+  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(185).png) 
+   
+   
+   Image 24.
+
+
+###  Testing and dedugging 
+
+To test the infrastructure , i ran "19.169.51.121/index.php" in my bowser , and it worked at frist , as shown below :
+
+![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(186).png)
+
+
+
+### Conclusion
+
+This project successfully demonstrated how to design and deploy a secure, cloud-based web application on AWS using Amazon EC2 and Amazon DynamoDB. By integrating a PHP web application running on EC2 with DynamoDB through the AWS SDK and IAM roles, the project showed how application components can communicate securely without the use of hard-coded credentials.
+
+Throughout the implementation, real-world challenges such as IAM role configuration, region mismatches, DynamoDB partition key requirements, and SDK setup were encountered and resolved. These challenges reinforced practical troubleshooting skills and deepened understanding of AWS service interactions, security best practices, and cloud architecture fundamentals.
+
+The final solution highlights the benefits of using managed services like DynamoDB for scalability and availability while maintaining a simple and flexible application layer on EC2. The architecture is intentionally designed to be extensible, providing a strong foundation for future enhancements such as load balancing, auto scaling, containerization, and hybrid or multi-cloud deployments.
+
+Overall, this project achieved its learning objectives and serves as a solid stepping stone toward building more complex, production-grade cloud infrastructures.
+   
   
