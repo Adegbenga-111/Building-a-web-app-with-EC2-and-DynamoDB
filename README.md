@@ -89,8 +89,9 @@ Launching an EC2 in the public subnet in the VPC we created , The specs of the E
 
 - Public IP -> Enable
 
-- Security Group -> allow ssh from anywhere .
-                 -> allow https/http from anywhere
+- Security Group
+                    -> allow ssh from anywhere .
+                    -> allow https/http from anywhere
    note: the reason for shh from anywhere is because of my IP address changes as I join one network to another.
 
   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(164).png)
