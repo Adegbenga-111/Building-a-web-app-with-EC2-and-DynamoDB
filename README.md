@@ -147,7 +147,7 @@ Image 15: review of the role be create.
 
   Image 16: "sudo apt install apache2 php libapache2-mod-php php-cli unzip -y" running on the terminal.
 
-After in installing the sever , I had to check if the server is well installed , the result is shown below :
+After in installing the server , I had to check if the server is well installed , the result is shown below :
 
  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(169).png)
 
@@ -163,10 +163,11 @@ After in installing the sever , I had to check if the server is well installed ,
 
 Image 19.
 
-The next step is to install Composer (a php dependency manager that automates installing and managing libraries for your project.) , using this command  
-   "cd /var/www/html
-    sudo apt install curl -y
-    sudo curl -sS https://getcomposer.org/installer | sudo php"
+The next step is to install Composer (a php dependency manager that automates installing and managing libraries for your project.) , using this command :
+
+- cd /var/www/html
+- sudo apt install curl -y
+- sudo curl -sS https://getcomposer.org/installer | sudo php"
 
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(176).png)
 
@@ -180,23 +181,20 @@ The next step is to install Composer (a php dependency manager that automates in
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(178).png)
   
 Image 21.
+
  This is a common error , telling that php extensions are missing since php does not install composer php extension by default .
  
- ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(175).png)
-
-Image 22.
-
 To fix the error , i used "sudo apt install php-cli php-mbstring php-zip php-curl php-xml -y" to install all of the extensions , as shown below :
 
   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(178).png)
 
-  Image 23.
+  Image 22.
 
 After the extension has be  installed , i try to install AWS SDK for php , as shown below :
 
    ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(180).png)
 
-   Image 24 : SDK successfully installed .
+   Image 23 : SDK successfully installed .
    
 Fix permissions so Apache can read files with the following command :
 
@@ -209,7 +207,7 @@ The next step is to create the web file which are the index.php and save .php fi
   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(185).png) 
    
    
-   Image 25.
+   Image 26.
 
 
 ###  Testing and dedugging 
