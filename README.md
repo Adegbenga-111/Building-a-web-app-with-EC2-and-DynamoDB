@@ -212,7 +212,7 @@ The next step is to create the web file which are the index.php and save .php fi
 
 ###  Testing and dedugging 
 
-To test the infrastructure , i ran "19.169.51.121/index.php" in my bowser , and it worked at frist , as shown below :
+To test the infrastructure , i ran "19.169.51.121/index.php" in my bowser , and it worked  , as shown below :
 
 ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(186).png)
 
