@@ -96,6 +96,11 @@ This incident reinforced the importance of region consistency, schema accuracy, 
 
 ---
 
+## Detailed Build Documentation
+Step-by-step implementation, configuration screenshots, and troubleshooting notes are documented in  
+➡️ [`steps.md`](./phase.md)
+
+
 ## Conclusion
 
 This project demonstrates a secure and practical approach to building a cloud-based web application on AWS using EC2 and DynamoDB. By leveraging IAM roles, the solution avoids hard-coded credentials and follows least-privilege security principles.
