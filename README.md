@@ -98,7 +98,7 @@ This incident reinforced the importance of region consistency, schema accuracy, 
 
 ## Detailed Build Documentation
 Step-by-step implementation, configuration screenshots, and troubleshooting notes are documented in  
-➡️ [`steps.md`](./phase.md)
+➡️ [`phases.md`](./phases.md)
 
 
 ## Conclusion
