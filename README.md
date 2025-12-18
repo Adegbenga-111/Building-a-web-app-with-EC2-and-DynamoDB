@@ -1,231 +1,105 @@
-# Building-a-web-app-with-EC2-and-DynamoDB
-## Objective
-The objective was to learn how to build and secure a cloud-based web application by connecting an EC2-hosted application to DynamoDB using IAM roles, while understanding networking, permissions, and real-world troubleshooting on AWS.
+# Web Application Deployment with Amazon EC2 and DynamoDB
 
-## Architecture Diagram And Overview
-This project implements a simple, secure web application architecture on AWS using a compute layer hosted on Amazon EC2 and a fully managed NoSQL database provided by Amazon DynamoDB. The design follows AWS best practices by separating compute and data layers and using IAM roles for secure service-to-service communication.
+## Project Summary
 
+This project demonstrates how to design, deploy, and secure a simple cloud-based web application on AWS using **Amazon EC2** for compute and **Amazon DynamoDB** as a fully managed NoSQL database. The focus is on **secure service-to-service communication** using IAM roles, proper network configuration, and real-world troubleshooting.
 
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(210).png)
+The application runs on an EC2 instance and performs read/write operations to DynamoDB without hard-coded credentials, following AWS security best practices.
 
-  Image 01: Architecture Diagram
+---
 
-##  Phase Invovle In Building oF This Project  
-### Phase 1:
+## Architecture Overview
 
-Create The VPC with:
+The architecture separates the compute and data layers, with EC2 hosting the application logic and DynamoDB handling persistent storage. IAM roles are used to grant the EC2 instance least-privilege access to the database.
 
--name: my-vpc-01 
+![Architecture Diagram](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20\(210\).png)
 
--IPv4 CIDR : 10.0.0.0/16 , as shown in the image below :
+**Key Components:**
 
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(123).png)
+* Amazon VPC (custom networking)
+* Public subnet with Internet Gateway
+* Amazon EC2 (PHP web application)
+* Amazon DynamoDB (NoSQL database)
+* IAM role and policy for secure access
 
-   
-   Image 02: The reminding Setting were left on default .
+---
 
-Create a public Subnet in the VPC with :
+## Skills Demonstrated
 
--name: Public-Subnet
+* AWS VPC and subnet configuration
+* EC2 deployment and Linux server management
+* IAM roles and least-privilege access control
+* DynamoDB table design and access patterns
+* Secure application-to-database integration
+* Real-world troubleshooting and debugging
 
--CIDR : 10.0.1.0/24 .
+---
 
-The summary of the configure in the subnet is shown in the Image below:
-  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(126).png)
-  
+## Implementation Phases
 
+### Phase 1: Network and Compute Setup
 
-Creating and Attaching an Internet Gateway (IGW)  with 
+* Created a custom VPC (`10.0.0.0/16`) with a public subnet (`10.0.1.0/24`)
+* Attached an Internet Gateway and configured route tables for internet access
+* Launched an Ubuntu EC2 instance with HTTP/HTTPS and SSH access
 
-- name:My-IGW
-  
-and the IGW is attached to the VPC created at the start of this project. The reason why IGW is important in this setup ,is because it is the DOOR that connent's the VPC to the internet.    
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(129).png)
-    
-   Image 05: Creation of the IGW.
-   
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(131).png)
+---
 
-  Image 06: Attaching the IGW to the VPC.
+### Phase 2: DynamoDB Configuration
 
+* Created a DynamoDB table named **Users**
+* Configured the partition key as `userid` (String)
+* Designed the table to support simple write and read operations from the application
 
-  Creating a Route Table for the Public Subnet , After creating the route table , I added a route with :
- 
-   -Destination: 0.0.0.0/0 ( The internet)
-   
-   -Target : IGW 
-   
-  As shown in the image below :
-  
-  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(131).png)
+---
 
-   Image 07.
+### Phase 3: IAM Role and Permissions
 
-Than, I have to Associate the route table with the Public Subnet in the page shown in the image below :
+* Created a custom IAM policy granting read/write access to the DynamoDB table
+* Attached the policy to an EC2 IAM role
+* Assigned the role to the EC2 instance to eliminate the need for hard-coded AWS credentials
 
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(133).png)
+---
 
-   Image 08.
+### Phase 4: Application Setup on EC2
 
+* Installed and configured Apache, PHP, and required PHP extensions
+* Installed Composer and the AWS SDK for PHP
+* Fixed file permissions to allow Apache to serve application files
+* Developed a simple PHP application (`index.php` and `save.php`) to interact with DynamoDB
 
-### Phase 2 : Create DynamoDB Table 
+---
 
-In the creation of the DB , the following settings  and configuration were used :
-  - Table name: Users
-  - Partition key: userid(String)
-as shown in the image below :
+## Testing and Validation
 
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(145).png)
+* Accessed the application via the EC2 public IP
+* Verified successful data submission and storage in DynamoDB
+* Confirmed that database access worked exclusively through the EC2 IAM role
 
+---
 
-Image 09.
+## Incident and Troubleshooting (Unrecorded)
 
+During development, the application initially failed to write data to DynamoDB. Although screenshots were not captured, the root causes were identified and resolved:
 
-Launching an EC2 in the public subnet in the VPC we created , The specs of the EC2 are as follows :
+1. **Region Mismatch**
 
-- OS -> Ubuntu
+   * The AWS SDK in `save.php` was configured for a different region than the DynamoDB table
+   * Fix: Updated the SDK configuration to match the DynamoDB region
 
-- Instance type -> t3.micro
+2. **Partition Key Case Mismatch**
 
-- Public IP -> Enable
+   * DynamoDB partition key was defined as `userid`, while the application attempted to write `Userid`
+   * Fix: Updated the application code to match the exact partition key name (case-sensitive)
 
-- Security Group
-                    -> allow ssh from anywhere .
-                    -> allow https/http from anywhere
-   note: the reason for shh from anywhere is because of my IP address changes as I join one network to another.
+This incident reinforced the importance of region consistency, schema accuracy, and careful SDK configuration when integrating AWS services.
 
-  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(164).png)
+---
 
-   image 10: updating the EC2
+## Conclusion
 
-   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(166).png)
+This project demonstrates a secure and practical approach to building a cloud-based web application on AWS using EC2 and DynamoDB. By leveraging IAM roles, the solution avoids hard-coded credentials and follows least-privilege security principles.
 
-   image 10: upgrading the EC2
+Through hands-on implementation and troubleshooting, I gained experience in AWS networking, IAM configuration, DynamoDB access patterns, and application-level debugging. The architecture is intentionally extensible and can be expanded with load balancers, auto scaling, containerization, or CI/CD pipelines to support production-grade workloads.
 
-Creating IAM Role For EC2  : This is to important because without this ,the server will not be able to read or write into the DB. In order to do this , I went to IAM -> attach permission-> create policy , to create a policy to allow EC2
-to read and write in the DB, as shown in the image below :
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(153).png)
-
-
-Image 11: The policy in JSON .
-
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(154).png)
-
-
-Image 12: review of the policy , but the name of the policy is not in the image .
-
-After this , i went to create the role ; IAM-> Roles -> Create role 
-- Trusted entity : AWS service
-- Use case : EC2, , as shown below:
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(156).png)
-
-Image 13.
-
-Attaching the pocily create before to the role 
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(157).png)
-
- Image 14.
-
-
- ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(158).png)
-
-Image 15: review of the role be create.
-
-### Phase 3 : Set up of the EC2 to host the front and backend of the simple web app.
- Installing and enbling  apache2 and php with the set of commmand below :
-     "sudo apt update -y
-      sudo apt install apache2 php libapache2-mod-php php-cli unzip -y
-      sudo systemctl start apache2
-      sudo systemctl enable apache2"
-
-
- ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(167).png)
-
-  Image 16: "sudo apt install apache2 php libapache2-mod-php php-cli unzip -y" running on the terminal.
-
-After in installing the server , I had to check if the server is well installed , the result is shown below :
-
- ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(169).png)
-
-   Image 17: error page showing that something is not right, at this the time only ssh and https was allowed in the security Group so to fix it I updated the SG to allow http as  shown below:
-
- ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(173).png)
-
- Image 18 .
-
- After this I try to reach the my server agian , the result is shown below :
-
-   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(175).png)
-
-Image 19.
-
-The next step is to install Composer (a php dependency manager that automates installing and managing libraries for your project.) , using this command :
-
-- cd /var/www/html
-- sudo apt install curl -y
-- sudo curl -sS https://getcomposer.org/installer | sudo php"
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(176).png)
-
- Image 20.
-
- 
-  Installing  AWS SDK for PHP wusing " sudo php composer.phar require aws/aws-sdk-php" commamd and the result is shown below :
-
-
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(178).png)
-  
-Image 21.
-
- This is a common error , telling that php extensions are missing since php does not install composer php extension by default .
- 
-To fix the error , i used "sudo apt install php-cli php-mbstring php-zip php-curl php-xml -y" to install all of the extensions , as shown below :
-
-  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(178).png)
-
-  Image 22.
-
-After the extension has be  installed , i try to install AWS SDK for php , as shown below :
-
-   ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(180).png)
-
-   Image 23 : SDK successfully installed .
-   
-Fix permissions so Apache can read files with the following command :
-
-"
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 755 /var/www/html"
-
-The next step is to create the web file which are the index.php and save .php file in nano file editor , then restart the server :
-
-  ![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(185).png) 
-   
-   
-   Image 26.
-
-
-###  Testing and dedugging 
-
-To test the infrastructure , i ran "19.169.51.121/index.php" in my bowser , and it worked  , as shown below :
-
-![Alt aws](https://github.com/Adegbenga-111/Building-a-web-app-with-EC2-and-DynamoDB/blob/main/Screenshot%20(186).png)
-
-Image 26.
-
-### Conclusion
-
-This project successfully demonstrated how to design and deploy a secure, cloud-based web application on AWS using Amazon EC2 and Amazon DynamoDB. By integrating a PHP web application running on EC2 with DynamoDB through the AWS SDK and IAM roles, the project showed how application components can communicate securely without the use of hard-coded credentials.
-
-Throughout the implementation, real-world challenges such as IAM role configuration, region mismatches, DynamoDB partition key requirements, and SDK setup were encountered and resolved. These challenges reinforced practical troubleshooting skills and deepened understanding of AWS service interactions, security best practices, and cloud architecture fundamentals.
-
-The final solution highlights the benefits of using managed services like DynamoDB for scalability and availability while maintaining a simple and flexible application layer on EC2. The architecture is intentionally designed to be extensible, providing a strong foundation for future enhancements such as load balancing, auto scaling, containerization, and hybrid or multi-cloud deployments.
-
-Overall, this project achieved its learning objectives and serves as a solid stepping stone toward building more complex, production-grade cloud infrastructures.
-   
-  
+This project serves as a strong example of my progression from cloud support fundamentals toward junior cloud engineering responsibilities.
